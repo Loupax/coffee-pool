@@ -31,6 +31,8 @@ msg=""
 msg_t=0
 gameover=false
 lvl_complete=false
+lives=3
+retry_level=false
 floaters={}
 
 -- levels
@@ -79,6 +81,7 @@ function load_level(li)
  cue=nil
  gameover=false
  lvl_complete=false
+ retry_level=false
  floaters={}
  recipe={}
  for k,v in pairs(l.recipe) do
@@ -132,6 +135,7 @@ function _update60()
   if btnp(4) or btnp(5) then
    lvl_idx=1
    global_score=0
+   lives=3
    load_level(1)
   end
   return
@@ -147,10 +151,12 @@ function _update60()
 
  if msg_t>0 then msg_t-=1 end
 
- if gameover or lvl_complete then
+ if gameover or lvl_complete or retry_level then
   if btnp(4) or btnp(5) then
    if lvl_complete then
     lvl_idx+=1
+    load_level(lvl_idx)
+   elseif retry_level then
     load_level(lvl_idx)
    else
     state=-1
@@ -330,40 +336,46 @@ function _update60()
    end
   end
 
-  if cue_pocketed then
-   if fouls>0 then
+  if fouls>0 then
+   lives-=1
+   if lives<0 then
     gameover=true
-    show_msg("foul! bad mix!",999)
-    sfx(4)
+    show_msg("foul! game over!",999)
    else
-    -- verify recipe complete
-    local pass=true
-    for k,v in pairs(recipe) do
-     if (inv[k] or 0)<v then
-      pass=false
-     end
-    end
-    if pass then
-     mult=max(1,par-shots+1)
-     global_score+=1000*mult
-     lvl_complete=true
-     show_msg("level clear!",999)
-     sfx(5)
-    else
+    retry_level=true
+    show_msg("foul! life lost!",999)
+   end
+   sfx(4)
+  elseif cue_pocketed then
+   local pass=true
+   for k,v in pairs(recipe) do
+    if (inv[k] or 0)<v then pass=false end
+   end
+   if pass then
+    mult=max(1,par-shots+1)
+    global_score+=1000*mult
+    lvl_complete=true
+    show_msg("level clear!",999)
+    sfx(5)
+   else
+    lives-=1
+    if lives<0 then
      gameover=true
-     show_msg("recipe incomplete!",999)
-     sfx(4)
+     show_msg("bad mix! game over!",999)
+    else
+     retry_level=true
+     show_msg("bad mix! life lost!",999)
     end
+    sfx(4)
    end
   else
-   -- cue stays where it stopped
    state=0
   end
  end
 end
 
 function _draw()
- cls(1)
+ cls(3)
 
  if state==-1 then
   print("barista billiards",22,10,7)
@@ -413,8 +425,10 @@ function _draw()
  for e in all(ents) do
   if e.alive and e.t!=10 then
    local c=ecol(e.t)
+   circfill(e.x+1,e.y+1,e.r,0)
    circfill(e.x,e.y,e.r,c)
    circ(e.x,e.y,e.r,0)
+   pset(e.x-1,e.y-1,7)
    -- flash on cooldown
    if e.cd>0 and e.cd%4<2 then
     circ(e.x,e.y,e.r,10)
@@ -439,6 +453,7 @@ function _draw()
   local cy=cue.y+ay*pd
   local ex=cue.x+ax*(pd+cl)
   local ey=cue.y+ay*(pd+cl)
+  line(cx+1,cy+1,ex+1,ey+1,0)
   line(cx,cy,ex,ey,4)
   line(cx,cy,cx+ax,cy+ay,7)
   -- power bar
@@ -464,6 +479,8 @@ function _draw()
   end
  end
  -- hud: stats (top right)
+ print("\x87 x"..lives,55,10,0)
+ print("\x87 x"..lives,54,9,8)
  print("fouls:"..fouls,88,2,8)
  print(shots.."/"..par,100,9,7)
  print(global_score,88,16,10)
@@ -481,6 +498,10 @@ function _draw()
   rectfill(20,50,108,78,0)
   print("game over!",40,55,8)
   print("\x8e/\x97 to restart",32,68,6)
+ elseif retry_level then
+  rectfill(20,50,108,78,0)
+  print("try again!",40,55,8)
+  print("\x8e/\x97 to retry",32,68,6)
  elseif lvl_complete then
   rectfill(20,46,108,82,0)
   print("level clear!",36,49,11)

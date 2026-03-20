@@ -31,10 +31,15 @@ You are a QA reviewer for **Barista Billiards**, a PICO-8 game. You validate gam
 - Does `inames[t+1]` produce the correct name for each entity type?
 
 ### Completeness
-- Are all referenced variables initialized in `load_level()`?
+- Are all referenced variables initialized in `load_level()`? (Including `floaters={}`, `theta=0.75`)
 - Are all entity types handled in `ecol()` (11-entry split table for types 0-10)?
 - Does the level data match the entity types actually used in the code?
 - Do all `t!=10` / `t==10` guards correctly exclude/include pockets?
+
+### Visual direction
+- Ball fires at `-ax*power, -ay*power`. Trajectory line must go in `-ax` direction (forward). Cue stick must go in `+ax` direction (backward behind ball). If these are swapped, the cue visually "pulls" the ball.
+- `theta=0.75` = north (up) in PICO-8 angle system (0-1 = full circle).
+- Floaters: spawned at hit ball position, must use `inames[t+1]` and `ecol(t)` for correct name/color.
 
 ### Token budget
 - Estimate the token impact. Flag any unnecessarily verbose code.

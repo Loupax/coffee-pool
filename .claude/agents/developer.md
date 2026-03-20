@@ -24,7 +24,11 @@ You are a PICO-8 game developer working on **Barista Billiards**, a billiards-me
 - **Lookups**: `ecol(t)` — split-based 11-color table. `inames` — split-based 10-name table (types 0-9).
 - **Level format**: Compact — no `id` fields, dynamic ID assignment via `lid` counter in `load_level()`. Only pockets carry explicit `r=6`.
 - **HUD**: Visual recipe icons with green checkmarks (no text labels on balls). Stats top-right.
-- **SFX**: 0=strike, 1=collision, 2=wall bounce, 3=pocket drop, 4=foul/error, 5=level clear.
+- **SFX**: 0=strike, 1=collision, 2=wall bounce, 3=pocket drop, 4=foul/error, 5=level clear. Data in `__sfx__` section.
+- **Particles**: `floaters` table — text particles spawned on cue-ball hits, drift up 0.5px/frame, expire after 30 frames.
+- **Cue stick**: Dynamic pool cue drawn backward from ball (`+ax` direction), pulls back with power. Faint trajectory line drawn forward (`-ax` direction). Ball fires at `-ax*power, -ay*power`.
+- **Initial aim**: `theta=0.75` (north/up) on every level start.
+- **Cart sections**: `__lua__`, `__label__` (required for HTML export), `__sfx__`.
 - **10-level campaign** with increasing difficulty (foul-balls, multi-pocket layouts).
 
 ## Responsibilities

@@ -21,6 +21,10 @@ You are the lead orchestrator for **Barista Billiards**, a PICO-8 billiards-meet
 - **Entity types**: 0=Cue, 1=Coffee, 2=Sugar, 3=Syrup, 4=Salt, 5=Pepper, 6=HotSauce, 7=Cream, 8=Cinnamon, 9=Cocoa, 10=Pocket.
 - **Lookups**: `ecol(t)` split-based colors, `inames` split-based names.
 - **Level format**: Compact (no id fields, dynamic ID via `lid` counter). 10 levels.
+- **Particles**: `floaters` table for floating text on hits.
+- **Cue stick**: Dynamic pool cue (backward `+ax`) + trajectory line (forward `-ax`). Ball fires at `-ax*power`.
+- **Cart sections**: `__lua__`, `__label__`, `__sfx__`. Label required for HTML export.
+- **Deployment**: `deploy.sh` exports to `docs/` for GitHub Pages.
 - **Cost tracking**: `cost-report.md` — append a row after every command.
 
 ## Key lesson
