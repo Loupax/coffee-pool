@@ -353,7 +353,7 @@ function _update60()
    end
    if pass then
     mult=max(1,par-shots+1)
-    global_score+=1000*mult
+    global_score+=mult
     lvl_complete=true
     show_msg("level clear!",999)
     sfx(5)
@@ -465,7 +465,7 @@ function _draw()
  end
 
  -- hud background
- rectfill(0,0,127,10,15)
+ rectfill(0,0,127,10,14)
  line(0,11,127,11,5)
  -- hud: recipe icons
  local hx=2
@@ -487,8 +487,8 @@ function _draw()
  print("\x87"..lives,54,2,8)
  print(shots.."/"..par,81,4,0)
  print(shots.."/"..par,80,3,7)
- print(global_score,107,4,0)
- print(global_score,106,3,10)
+ print(global_score.."000",107,4,0)
+ print(global_score.."000",106,3,10)
 
  -- message
  if msg_t>0 then
@@ -511,7 +511,7 @@ function _draw()
   rectfill(20,46,108,82,0)
   print("level clear!",36,49,11)
   print("bonus x"..mult,44,58,10)
-  print("+"..1000*mult,50,66,10)
+  print("+"..mult.."000",50,66,10)
   print("\x8e/\x97 for next",36,74,6)
  end
 end
