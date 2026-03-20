@@ -25,3 +25,4 @@
 | 21 | Campaign lives + instant evaluation | $0.30 | 35s | 8m 0s | +15 / -3 | opus+sonnet+haiku |
 | 22 | HUD encapsulation + boundary + color tweaks | $0.30 | 30s | 6m 0s | +5 / -4 | claude-opus-4-6 |
 | 23 | HUD icon/text shadows + aim sensitivity | $0.27 | 25s | 4m 0s | +6 / -0 | claude-opus-4-6 |
+| 24 | Fix score overflow (display "000" suffix) | $1.07 | 3m 56s | 1h 54m | +0 / -0 | claude-opus-4-6 |
