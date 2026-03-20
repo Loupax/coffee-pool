@@ -21,3 +21,7 @@
 | 17 | Fix cue/aim direction + white trajectory | $0.22 | 20s | 3m 0s | +2 / -2 | claude-opus-4-6 |
 | 18 | Deploy script (deploy.sh) | $0.10 | 10s | 2m 0s | +11 / -0 | claude-opus-4-6 |
 | 19 | Update cost report | $1.40 | 1m 49s | 92m 33s | +0 / -0 | claude-opus-4-6 |
+| 20 | Ball shadows/sheen + palette polish | $0.35 | 40s | 10m 0s | +8 / -2 | opus+sonnet+haiku |
+| 21 | Campaign lives + instant evaluation | $0.30 | 35s | 8m 0s | +15 / -3 | opus+sonnet+haiku |
+| 22 | HUD encapsulation + boundary + color tweaks | $0.30 | 30s | 6m 0s | +5 / -4 | claude-opus-4-6 |
+| 23 | HUD icon/text shadows + aim sensitivity | $0.27 | 25s | 4m 0s | +6 / -0 | claude-opus-4-6 |

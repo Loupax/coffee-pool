@@ -171,8 +171,8 @@ function _update60()
    input_lock-=1
    return
   end
-  if btn(0) then theta-=0.01 end
-  if btn(1) then theta+=0.01 end
+  if btn(0) then theta-=0.003 end
+  if btn(1) then theta+=0.003 end
   if btn(4) then
    charging=true
    power+=0.08
@@ -212,8 +212,8 @@ function _update60()
      e.dx=-e.dx*0.9
      if abs(e.dx)>0.5 or abs(e.dy)>0.5 then sfx(2) end
     end
-    if e.y-e.r<0 then
-     e.y=e.r
+    if e.y-e.r<11 then
+     e.y=11+e.r
      e.dy=-e.dy*0.9
      if abs(e.dx)>0.5 or abs(e.dy)>0.5 then sfx(2) end
     end
@@ -464,26 +464,31 @@ function _draw()
   print("power",2,114,7)
  end
 
+ -- hud background
+ rectfill(0,0,127,10,15)
+ line(0,11,127,11,5)
  -- hud: recipe icons
  local hx=2
  for k,v in pairs(recipe) do
   for i=1,v do
-   circfill(hx,4,3,ecol(k))
-   circ(hx,4,3,0)
+   circfill(hx+1,6,3,0)
+   circfill(hx,5,3,ecol(k))
+   circ(hx,5,3,0)
+   pset(hx-1,4,7)
    if inv[k]>=i then
-    -- green checkmark
-    line(hx-1,4,hx,6,11)
-    line(hx,6,hx+2,2,11)
+    line(hx-1,5,hx,7,11)
+    line(hx,7,hx+2,3,11)
    end
    hx+=9
   end
  end
- -- hud: stats (top right)
- print("\x87 x"..lives,55,10,0)
- print("\x87 x"..lives,54,9,8)
- print("fouls:"..fouls,88,2,8)
- print(shots.."/"..par,100,9,7)
- print(global_score,88,16,10)
+ -- hud: stats
+ print("\x87"..lives,55,3,0)
+ print("\x87"..lives,54,2,8)
+ print(shots.."/"..par,81,4,0)
+ print(shots.."/"..par,80,3,7)
+ print(global_score,107,4,0)
+ print(global_score,106,3,10)
 
  -- message
  if msg_t>0 then
