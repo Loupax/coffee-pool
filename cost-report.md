@@ -14,3 +14,10 @@
 | 10 | SFX triggers + freebie messages | $1.50 | 3m 30s | 16m 0s | +13 / -0 | opus+sonnet+haiku |
 | 11 | Add __sfx__ sound data to cart | $0.82 | 2m 4s | 15m 25s | +7 / -0 | claude-opus-4-6 |
 | 12 | Splash screen polish + legend update | $0.48 | 1m 0s | 4m 45s | +13 / -4 | claude-opus-4-6 |
+| 13 | GPU diagnosis + software_blit fix | $0.30 | 30s | 5m 0s | +0 / -0 | claude-opus-4-6 |
+| 14 | Update memory, agents, skills | $0.55 | 1m 0s | 8m 0s | +52 / -14 | claude-opus-4-6 |
+| 15 | MIT license + README + GitHub Pages setup | $0.80 | 1m 30s | 25m 0s | +100 / -3 | claude-opus-4-6 |
+| 16 | Visual polish: cue stick + floaters + theta | $2.80 | 3m 0s | 20m 0s | +30 / -5 | opus+sonnet+haiku |
+| 17 | Fix cue/aim direction + white trajectory | $0.22 | 20s | 3m 0s | +2 / -2 | claude-opus-4-6 |
+| 18 | Deploy script (deploy.sh) | $0.10 | 10s | 2m 0s | +11 / -0 | claude-opus-4-6 |
+| 19 | Update cost report | $1.40 | 1m 49s | 92m 33s | +0 / -0 | claude-opus-4-6 |

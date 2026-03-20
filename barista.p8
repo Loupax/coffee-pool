@@ -31,6 +31,7 @@ msg=""
 msg_t=0
 gameover=false
 lvl_complete=false
+floaters={}
 
 -- levels
 levels={
@@ -72,12 +73,13 @@ function load_level(li)
  mult=0
  input_lock=10
  state=3
- theta=0
+ theta=0.75
  power=0
  charging=false
  cue=nil
  gameover=false
  lvl_complete=false
+ floaters={}
  recipe={}
  for k,v in pairs(l.recipe) do
   recipe[k]=v
@@ -252,10 +254,12 @@ function _update60()
       and b.t!=0 then
        eval_score(b.t)
        b.cd=cd_frames
+       add(floaters,{txt=inames[b.t+1],x=b.x,y=b.y,t=30,c=ecol(b.t)})
       elseif b.t==0 and a.cd==0
       and a.t!=0 then
        eval_score(a.t)
        a.cd=cd_frames
+       add(floaters,{txt=inames[a.t+1],x=a.x,y=a.y,t=30,c=ecol(a.t)})
       end
      end
     end
@@ -300,6 +304,13 @@ function _update60()
      allstop=false
     end
    end
+  end
+
+  -- update floaters
+  for f in all(floaters) do
+   f.y-=0.5
+   f.t-=1
+   if f.t<=0 then del(floaters,f) end
   end
 
   if state!=2 and allstop then
@@ -411,14 +422,25 @@ function _draw()
   end
  end
 
- -- aim line
+ -- floaters
+ for f in all(floaters) do
+  print(f.txt,f.x-#f.txt*2,f.y,f.c)
+ end
+
+ -- aim line + cue stick
  if state==0 and not gameover
  and not lvl_complete then
   local ax=cos(theta)
   local ay=sin(theta)
-  local lx=cue.x+ax*20
-  local ly=cue.y+ay*20
-  line(cue.x,cue.y,lx,ly,11)
+  line(cue.x-ax*8,cue.y-ay*8,cue.x-ax*24,cue.y-ay*24,7)
+  local pd=6+power*4
+  local cl=16
+  local cx=cue.x+ax*pd
+  local cy=cue.y+ay*pd
+  local ex=cue.x+ax*(pd+cl)
+  local ey=cue.y+ay*(pd+cl)
+  line(cx,cy,ex,ey,4)
+  line(cx,cy,cx+ax,cy+ay,7)
   -- power bar
   local pw=power/aim_pow_max
   rectfill(2,120,2+pw*30,124,8)
