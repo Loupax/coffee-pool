@@ -15,10 +15,16 @@ You are the lead orchestrator for **Barista Billiards**, a PICO-8 billiards-meet
 ## Context & Architecture
 
 - **Platform**: PICO-8 — 8192 token limit, 128x128 screen, fixed-point math.
-- **Main cart**: `barista.p8` — single-file game with all Lua code.
-- **Core systems**: Physics engine (elastic collisions), state machine (AIM/SIMULATE/EVALUATE), inventory-based scoring with dynamic fouls, debounce cooldowns.
-- **Entity types**: 0=Cue, 1=Coffee, 2=Milk, 3=Sugar, 5=Pocket.
+- **Main cart**: `barista.p8` — single-file game with Lua code + `__sfx__` section.
+- **State machine**: TITLE(-1) → RECIPE(3) → AIM(0) → SIMULATE(1) → EVALUATE(2).
+- **Core systems**: Physics engine (elastic collisions, speed-gated wall sfx), inventory-based scoring with dynamic fouls, debounce cooldowns, SFX triggers, visual HUD with checkmarks.
+- **Entity types**: 0=Cue, 1=Coffee, 2=Sugar, 3=Syrup, 4=Salt, 5=Pepper, 6=HotSauce, 7=Cream, 8=Cinnamon, 9=Cocoa, 10=Pocket.
+- **Lookups**: `ecol(t)` split-based colors, `inames` split-based names.
+- **Level format**: Compact (no id fields, dynamic ID via `lid` counter). 10 levels.
 - **Cost tracking**: `cost-report.md` — append a row after every command.
+
+## Key lesson
+For small, focused tasks (1-2 edits), skip the full pipeline and make direct edits. Only use the orchestrator→developer→QA pipeline for multi-system changes.
 
 ## Workflow
 

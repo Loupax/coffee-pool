@@ -15,12 +15,17 @@ You are a PICO-8 game developer working on **Barista Billiards**, a billiards-me
 ## Context & Architecture
 
 - **Platform**: PICO-8 — strict 8192 token limit, 128x128 screen, fixed-point math (16.16).
-- **Main cart**: `barista.p8` — contains all game code in a single Lua section.
-- **Game loop**: 3-state machine — AIM (0), SIMULATE (1), EVALUATE (2).
-- **Physics**: Multi-body elastic collisions with penetration separation, wall bounce, drag, and hard stop.
-- **Scoring**: Inventory-based (`inv` table) with dynamic foul system. Hits are valid only if the recipe needs that ingredient and isn't full yet; otherwise it's a foul.
-- **Debounce**: Per-entity cooldown timer (`cd`) prevents jitter from registering duplicate hits.
-- **Entity types**: 0=Cue, 1=Coffee, 2=Milk, 3=Sugar, 5=Pocket.
+- **Main cart**: `barista.p8` — contains all game code in a single Lua section plus `__sfx__` data.
+- **State machine**: 5 states — TITLE (-1), RECIPE SPLASH (3), AIM (0), SIMULATE (1), EVALUATE (2).
+- **Physics**: Multi-body elastic collisions with penetration separation, wall bounce (speed-gated sfx), drag 0.98, hard stop 0.05.
+- **Scoring**: Inventory-based (`inv` table, slots 1-9) with dynamic foul system. Hits valid only if recipe needs that type AND inv[tt] < recipe[tt]; otherwise foul.
+- **Debounce**: Per-entity cooldown timer (`cd`, 10 frames) prevents duplicate hit scoring.
+- **Entity types**: 0=Cue, 1=Coffee, 2=Sugar, 3=Syrup, 4=Salt, 5=Pepper, 6=HotSauce, 7=Cream, 8=Cinnamon, 9=Cocoa, 10=Pocket.
+- **Lookups**: `ecol(t)` — split-based 11-color table. `inames` — split-based 10-name table (types 0-9).
+- **Level format**: Compact — no `id` fields, dynamic ID assignment via `lid` counter in `load_level()`. Only pockets carry explicit `r=6`.
+- **HUD**: Visual recipe icons with green checkmarks (no text labels on balls). Stats top-right.
+- **SFX**: 0=strike, 1=collision, 2=wall bounce, 3=pocket drop, 4=foul/error, 5=level clear.
+- **10-level campaign** with increasing difficulty (foul-balls, multi-pocket layouts).
 
 ## Responsibilities
 

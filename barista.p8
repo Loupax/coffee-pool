@@ -34,26 +34,26 @@ lvl_complete=false
 
 -- levels
 levels={
- {
-  recipe={[1]=1,[7]=1},
-  ents={
-   {id=1,t=0,x=64,y=100},
-   {id=2,t=1,x=40,y=40},
-   {id=3,t=7,x=88,y=40},
-   {id=4,t=10,x=64,y=10,r=6}
-  }
- },
- {
-  recipe={[1]=1,[7]=1},
-  ents={
-   {id=1,t=0,x=64,y=110},
-   {id=2,t=1,x=30,y=50},
-   {id=3,t=7,x=98,y=50},
-   {id=4,t=2,x=55,y=40},
-   {id=5,t=2,x=73,y=40},
-   {id=6,t=10,x=64,y=10,r=6}
-  }
- }
+ {recipe={[1]=1},
+  ents={{t=0,x=64,y=100},{t=1,x=64,y=50},{t=10,x=64,y=16,r=6}}},
+ {recipe={[1]=1,[7]=1},
+  ents={{t=0,x=64,y=110},{t=1,x=40,y=60},{t=7,x=88,y=60},{t=10,x=64,y=16,r=6}}},
+ {recipe={[1]=1,[7]=1,[2]=1},
+  ents={{t=0,x=64,y=110},{t=1,x=30,y=70},{t=7,x=98,y=70},{t=2,x=64,y=50},{t=4,x=64,y=80},{t=10,x=64,y=16,r=6}}},
+ {recipe={[1]=1,[7]=1,[9]=1},
+  ents={{t=0,x=64,y=64},{t=1,x=30,y=30},{t=7,x=98,y=30},{t=9,x=64,y=98},{t=10,x=16,y=16,r=6},{t=10,x=112,y=16,r=6}}},
+ {recipe={[1]=1,[9]=1,[6]=1},
+  ents={{t=0,x=64,y=110},{t=1,x=64,y=50},{t=9,x=40,y=30},{t=6,x=88,y=30},{t=7,x=50,y=70},{t=7,x=78,y=70},{t=10,x=64,y=16,r=6}}},
+ {recipe={[1]=1,[2]=3},
+  ents={{t=0,x=64,y=110},{t=1,x=64,y=20},{t=2,x=40,y=60},{t=2,x=64,y=60},{t=2,x=88,y=60},{t=5,x=40,y=40},{t=5,x=88,y=40},{t=10,x=16,y=16,r=6},{t=10,x=112,y=16,r=6}}},
+ {recipe={[1]=1,[3]=1,[8]=1},
+  ents={{t=0,x=64,y=110},{t=1,x=64,y=80},{t=3,x=20,y=64},{t=8,x=108,y=64},{t=4,x=40,y=40},{t=4,x=88,y=40},{t=10,x=64,y=16,r=6}}},
+ {recipe={[1]=1,[7]=1,[3]=2},
+  ents={{t=0,x=16,y=110},{t=1,x=112,y=110},{t=7,x=64,y=64},{t=3,x=40,y=30},{t=3,x=88,y=30},{t=4,x=64,y=45},{t=10,x=64,y=16,r=6}}},
+ {recipe={[1]=2,[7]=1},
+  ents={{t=0,x=64,y=110},{t=1,x=30,y=80},{t=1,x=98,y=80},{t=7,x=64,y=50},{t=4,x=50,y=16},{t=4,x=78,y=16},{t=10,x=64,y=16,r=6}}},
+ {recipe={[1]=2,[7]=2,[3]=1,[9]=1},
+  ents={{t=0,x=64,y=110},{t=1,x=30,y=80},{t=1,x=98,y=80},{t=7,x=30,y=40},{t=7,x=98,y=40},{t=3,x=64,y=60},{t=9,x=64,y=30},{t=4,x=45,y=50},{t=5,x=83,y=50},{t=10,x=16,y=16,r=6},{t=10,x=112,y=16,r=6}}}
 }
 
 function load_level(li)
@@ -82,9 +82,10 @@ function load_level(li)
  for k,v in pairs(l.recipe) do
   recipe[k]=v
  end
+ local lid=1
  for e in all(l.ents) do
   local ne={
-   id=e.id,t=e.t,
+   id=lid,t=e.t,
    x=e.x,y=e.y,
    dx=0,dy=0,
    r=e.r or ball_r,
@@ -92,6 +93,7 @@ function load_level(li)
   }
   add(ents,ne)
   if ne.t==0 then cue=ne end
+  lid+=1
  end
  msg="level "..li
  msg_t=60
@@ -177,6 +179,7 @@ function _update60()
    power=0
    shots+=1
    state=1
+   sfx(0)
   end
 
  elseif state==1 then
@@ -194,18 +197,22 @@ function _update60()
     if e.x-e.r<0 then
      e.x=e.r
      e.dx=-e.dx*0.9
+     if abs(e.dx)>0.5 or abs(e.dy)>0.5 then sfx(2) end
     end
     if e.x+e.r>127 then
      e.x=127-e.r
      e.dx=-e.dx*0.9
+     if abs(e.dx)>0.5 or abs(e.dy)>0.5 then sfx(2) end
     end
     if e.y-e.r<0 then
      e.y=e.r
      e.dy=-e.dy*0.9
+     if abs(e.dx)>0.5 or abs(e.dy)>0.5 then sfx(2) end
     end
     if e.y+e.r>127 then
      e.y=127-e.r
      e.dy=-e.dy*0.9
+     if abs(e.dx)>0.5 or abs(e.dy)>0.5 then sfx(2) end
     end
    end
   end
@@ -238,6 +245,7 @@ function _update60()
        a.dy-=van*ny
        b.dx+=van*nx
        b.dy+=van*ny
+       sfx(1)
       end
       -- scoring
       if a.t==0 and b.cd==0
@@ -265,9 +273,12 @@ function _update60()
       if dsq<e.r*e.r then
        if b.t==0 then
         -- cue pocketed
+        sfx(3)
         state=2
        else
         b.alive=false
+        sfx(3)
+        show_msg("free "..inames[b.t+1].."!",45)
        end
       end
      end
@@ -312,6 +323,7 @@ function _update60()
    if fouls>0 then
     gameover=true
     show_msg("foul! bad mix!",999)
+    sfx(4)
    else
     -- verify recipe complete
     local pass=true
@@ -325,9 +337,11 @@ function _update60()
      global_score+=1000*mult
      lvl_complete=true
      show_msg("level clear!",999)
+     sfx(5)
     else
      gameover=true
      show_msg("recipe incomplete!",999)
+     sfx(4)
     end
    end
   else
@@ -341,18 +355,24 @@ function _draw()
  cls(1)
 
  if state==-1 then
-  print("barista billiards",22,30,7)
-  print("- ingredient legend -",18,40,6)
+  print("barista billiards",22,10,7)
+  print("smash into the ingredients",12,22,6)
+  print("to build up your order before",5,30,6)
+  print("giving it to the customer.",12,38,6)
+  print("- legend -",44,52,10)
   for i=1,9 do
    local row=flr((i-1)/3)
    local col=(i-1)%3
    local bx=6+col*42
-   local by=52+row*12
+   local by=64+row*12
    circfill(bx,by,3,ecol(i))
    circ(bx,by,3,0)
    print(inames[i+1],bx+6,by-2,6)
   end
-  print("press \x8e or \x97 to start",24,96,7)
+  circfill(40,104,5,0)
+  circ(40,104,5,5)
+  print("customer (pocket)",48,102,6)
+  print("press \x8e or \x97 to start",24,118,7)
   return
  end
 
@@ -447,3 +467,10 @@ function _draw()
   print("\x8e/\x97 for next",36,74,6)
  end
 end
+__sfx__
+000200001c6501a6501865014650106500e6500c65009650076500565004650036500265001650016500165000650006500060000600006000060000600006000060000600006000060000600006000
+000400002b7502b7502a75028750267502475022750207501e7501c7501a750187501675014750127500e75009750067500475003750027500175001750007500075000750007500075000750007500
+0004000036350313502c35028350243501f3501b350173501335010350003000030000300003000030000300003000030000300003000030000300003000030000300003000030000300003000030000
+000800000c5500e5501055013550155501855019550195501a5501a5501a5501855015550135500f5500c550095500755005550035500255001550015550155001550005500055000550005500055000
+001000003205032050320503005030050280502805026050240502205020050200501e0501c0501a050180501605014050120501005010050100500e0500e0500c0500c0500a050080500605004050000
+000800001855018550195501c5501f550225502555028550285502855028550275502555023550215501e5501c55019550175501555013550115500f5500d5500c5500a550095500855007550065500

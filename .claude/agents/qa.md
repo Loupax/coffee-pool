@@ -17,19 +17,24 @@ You are a QA reviewer for **Barista Billiards**, a PICO-8 game. You validate gam
 ### Correctness
 - Does the implementation match what was asked?
 - Is the physics math correct (collision detection, penetration separation, velocity exchange)?
-- Is the state machine flow intact (AIM → SIMULATE → EVALUATE)?
+- Is the state machine flow intact (TITLE(-1) → RECIPE(3) → AIM(0) → SIMULATE(1) → EVALUATE(2))?
 - Does the scoring/foul system follow the rules (inventory vs recipe, dynamic fouls)?
 - Is the debounce cooldown logic preserved (physics always fires, scoring gated by cooldown)?
+- Do SFX triggers fire at the correct moments without disrupting logic?
 
 ### Consistency
 - Does the code follow PICO-8 Lua conventions (1-space indent, compact names)?
-- Are entity types used consistently (0=Cue, 1=Coffee, 2=Milk, 3=Sugar, 5=Pocket)?
+- Are entity types used consistently? **CURRENT MAPPING (do NOT use old mapping):**
+  - 0=Cue, 1=Coffee, 2=Sugar, 3=Syrup, 4=Salt, 5=Pepper, 6=HotSauce, 7=Cream, 8=Cinnamon, 9=Cocoa, 10=Pocket
+  - Type 5 is PEPPER (an ingredient/foul-ball), NOT a pocket. Pockets are type 10.
 - Do HUD displays match the actual game state variables?
+- Does `inames[t+1]` produce the correct name for each entity type?
 
 ### Completeness
 - Are all referenced variables initialized in `load_level()`?
-- Are all entity types handled in `ecol()` and the labels array?
+- Are all entity types handled in `ecol()` (11-entry split table for types 0-10)?
 - Does the level data match the entity types actually used in the code?
+- Do all `t!=10` / `t==10` guards correctly exclude/include pockets?
 
 ### Token budget
 - Estimate the token impact. Flag any unnecessarily verbose code.

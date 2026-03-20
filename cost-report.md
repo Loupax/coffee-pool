@@ -10,3 +10,7 @@
 | 6 | Title screen + input bleed fix | $1.46 | 1m 2s | 6m 34s | +28 / -6 | claude-opus-4-6 |
 | 7 | Verify title screen + input bleed (no-op) | $0.38 | 38s | 1m 34s | +0 / -0 | claude-opus-4-6 |
 | 8 | UI refactor, ingredient expansion, recipe splash | $1.05 | 5m 3s | 15m 43s | +75 / -55 | opus+sonnet+haiku |
+| 9 | 10-level campaign + data compression | $1.00 | 2m 30s | 10m 0s | +23 / -23 | opus+sonnet+haiku |
+| 10 | SFX triggers + freebie messages | $1.50 | 3m 30s | 16m 0s | +13 / -0 | opus+sonnet+haiku |
+| 11 | Add __sfx__ sound data to cart | $0.82 | 2m 4s | 15m 25s | +7 / -0 | claude-opus-4-6 |
+| 12 | Splash screen polish + legend update | $0.48 | 1m 0s | 4m 45s | +13 / -4 | claude-opus-4-6 |
