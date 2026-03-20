@@ -428,7 +428,7 @@ function _draw()
    circfill(e.x+1,e.y+1,e.r,0)
    circfill(e.x,e.y,e.r,c)
    circ(e.x,e.y,e.r,0)
-   pset(e.x-1,e.y-1,7)
+   pset(e.x-1,e.y-1,c==7 and 6 or 7)
    -- flash on cooldown
    if e.cd>0 and e.cd%4<2 then
     circ(e.x,e.y,e.r,10)
@@ -474,7 +474,7 @@ function _draw()
    circfill(hx+1,6,3,0)
    circfill(hx,5,3,ecol(k))
    circ(hx,5,3,0)
-   pset(hx-1,4,7)
+   pset(hx-1,4,ecol(k)==7 and 6 or 7)
    if inv[k]>=i then
     line(hx-1,5,hx,7,11)
     line(hx,7,hx+2,3,11)
